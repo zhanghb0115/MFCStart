@@ -50,12 +50,6 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 
 	TLVPackage::CONV_AscBcd(TlvInputData, TempData, csTring.GetLength());
 
-	int var_n = 0;
-	for (var_n = 0; var_n <= csTring.GetLength()/2; var_n++) {
-
-		TRACE0("%x \r\n ", TlvInputData[var_n]);
-	}
-
 	TLVEntity tlvEntity[100];
 	TLVEntity tlvEntity_change[100];
 	unsigned int tlv_count=100;
@@ -78,22 +72,7 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 	
 
 	TLVPackage::Construct(TlvInputData, csTring.GetLength()/2, tlvEntity, tlv_count, 0);
-    /*
-	void TLVPackage::Construct(
-	unsigned char* buffer,
-	unsigned int bufferLength,
-	TLVEntity* tlvEntity,
-	unsigned int& entityLength,
-	unsigned int status
-)
-
-	
-	int var_i = 0;
-	for (var_i = 0; var_i <= tlv_count; var_i++) {
-		TRACE("%s[%d]:%s\r\n", tlvEntity[var_i].Tag, tlvEntity[var_i].Length, tlvEntity[var_i].Value);
-		//if (tlvEntity[var_i].Tag[0] == 0x00)
-		//	break;
-	}*/
+    
 	int var_i = 0;
 	int var_j = 0;
 	unsigned char DispChar[1024];
