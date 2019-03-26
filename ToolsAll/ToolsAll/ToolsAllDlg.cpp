@@ -32,6 +32,8 @@ public:
 // 实现
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	
 };
 
 CAboutDlg::CAboutDlg() : CDialogEx(IDD_ABOUTBOX)
@@ -44,6 +46,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	
 END_MESSAGE_MAP()
 
 
@@ -226,10 +229,6 @@ void CToolsAllDlg::OnBnClickedButton2()
 	DlgOne->ShowWindow(SW_SHOW);
 	DlgTwo->ShowWindow(SW_HIDE);
 
-
-	
-
-
 	CRect cr;
 
 	//GetDlgItem(IDD_TOOLSALL_DIALOG)->MoveWindow(150, 0, 1100, 700);
@@ -263,4 +262,8 @@ void CToolsAllDlg::OnBnClickedButton3()
 	GetDlgItem(IDC_STATIC_GROUP)->ShowWindow(SW_SHOW);
 	DlgOne->ShowWindow(SW_HIDE);
 	DlgTwo->ShowWindow(SW_SHOW);
+
+	TRACE("---OnBnClickedButton1-1111--\r\n");
 }
+
+
