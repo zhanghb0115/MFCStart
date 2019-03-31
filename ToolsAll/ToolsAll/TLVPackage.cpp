@@ -338,30 +338,37 @@ int TLVPackage::CONV_AscBcd(UCHAR *pucDest, UCHAR *pucSrc, int uiSrcLen)
 	
 	memcpy(TempBuffer, pucSrc, uiSrcLen);
 	for (uiI = 0; uiI < uiSrcLen; uiI++) {
-		switch (TempBuffer[uiI])
+		if ((TempBuffer[uiI] >= 'a' && TempBuffer[uiI] <= 'f')
+			|| (TempBuffer[uiI] >= 'A' && TempBuffer[uiI] <= 'F')
+			|| (TempBuffer[uiI] >= '0' && TempBuffer[uiI] <= '9'))
 		{
-		case 'A':
-			TempBuffer[uiI] = 0x0A;
-			break;
-		case 'B':
-			TempBuffer[uiI] = 0x0B;
-			break;
-		case 'C':
-			TempBuffer[uiI] = 0x0C;
-			break;
-		case 'D':
-			TempBuffer[uiI] = 0x0D;
-			break;
-		case 'E':
-			TempBuffer[uiI] = 0x0E;
-			break;
-		case 'F':
-			TempBuffer[uiI] = 0x0F;
-			break;
-		default:
-			TempBuffer[uiI] = TempBuffer[uiI] - 0x30;
-			break;
+			switch (TempBuffer[uiI])
+			{
+			case 'A':
+				TempBuffer[uiI] = 0x0A;
+				break;
+			case 'B':
+				TempBuffer[uiI] = 0x0B;
+				break;
+			case 'C':
+				TempBuffer[uiI] = 0x0C;
+				break;
+			case 'D':
+				TempBuffer[uiI] = 0x0D;
+				break;
+			case 'E':
+				TempBuffer[uiI] = 0x0E;
+				break;
+			case 'F':
+				TempBuffer[uiI] = 0x0F;
+				break;
+			default:
+				TempBuffer[uiI] = TempBuffer[uiI] - 0x30;
+				break;
+			}
 		}
+		else
+			return -1;
 	}
 
 	HexCharIndex = 0;

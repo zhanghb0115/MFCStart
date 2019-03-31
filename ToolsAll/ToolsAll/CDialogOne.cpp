@@ -26,6 +26,7 @@ void CDialogOne::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CDialogOne, CDialogEx)
 	ON_BN_CLICKED(IDC_BUTTON_CHANGETLV, &CDialogOne::OnBnClickedButton_CHANGETLV)
+	ON_BN_CLICKED(IDC_TLV_CLEAR, &CDialogOne::OnBnClickedTlvClear)
 END_MESSAGE_MAP()
 
 void CDialogOne::OnBnClickedButton_CHANGETLV()
@@ -35,6 +36,7 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 	unsigned char TlvInputData[1024];
 	TCHAR IEDIT_CH[1024];
 	CString csTring;
+	CString strErr;
 
 	//GetDlgItemText(IDC_TLV_INPUTDATA, TlvInputData);
 	CString x;
@@ -48,7 +50,19 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 	memcpy(TempData, T2A(csTring.GetBuffer(0)), csTring.GetLength());
 	csTring.ReleaseBuffer();
 
-	TLVPackage::CONV_AscBcd(TlvInputData, TempData, csTring.GetLength());
+	if (csTring.GetLength() == 0)
+	{
+		strErr.Format(_T("输入数据空\n"));
+		MessageBox(strErr, _T("提示"));
+		return;
+	}
+
+	if (TLVPackage::CONV_AscBcd(TlvInputData, TempData, csTring.GetLength()) == -1)
+	{		
+		strErr.Format(_T("请输入正确的数据\n"));
+		MessageBox(strErr, _T("提示"));
+		return;
+	 }
 
 	TLVEntity tlvEntity[100];
 	TLVEntity tlvEntity_change[100];
@@ -56,7 +70,7 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 	memset(tlvEntity, 0x00, sizeof(tlvEntity));
 	memset(tlvEntity_change, 0x00, sizeof(tlvEntity_change));
 
-
+#if 0
 	unsigned char requestBuf[] = {
 			0x9F, 0x1C, 0x12, 0x33, 0x33, 0x30, 0x32, 0x32, 0x37, 0x31, 0x39, 0x36, 0x32, 0x30, 0x34, 0x30, 0x34,
 			0x32, 0x37, 0x31, 0x38, 0x9F, 0x62, 0x01, 0x01, 0x57, 0x12, 0x62, 0x22, 0x89, 0x00, 0x00, 0x02, 0x91,
@@ -67,12 +81,10 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 			0x34, 0x37, 0x31, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x32, 0x38, 0x39, 0x30,
 			0x30, 0x3F
 	};
-
-
-	
+#endif
 
 	TLVPackage::Construct(TlvInputData, csTring.GetLength()/2, tlvEntity, tlv_count, 0);
-    
+
 	int var_i = 0;
 	int var_j = 0;
 	unsigned char DispChar[1024];
@@ -97,4 +109,11 @@ void CDialogOne::OnBnClickedButton_CHANGETLV()
 	MultiByteToWideChar(CP_ACP, 0, (char *)DispChar, -1, chRtn, 1024);
 	GetDlgItem(IDC_TLV_OUTPUTDATA)->SetWindowTextW(chRtn);
 	TRACE("%s", DispChar);
+}
+
+void CDialogOne::OnBnClickedTlvClear()
+{
+	// TODO: 在此添加控件通知处理程序代码
+	GetDlgItem(IDC_TLV_OUTPUTDATA)->SetWindowTextW(NULL);
+	GetDlgItem(IDC_TLV_INPUTDATA)->SetWindowTextW(NULL);
 }

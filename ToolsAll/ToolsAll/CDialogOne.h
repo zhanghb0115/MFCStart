@@ -12,5 +12,6 @@ public:
 	CDialogOne();
 	~CDialogOne();	
 	afx_msg void OnBnClickedButton_CHANGETLV();
+	afx_msg void OnBnClickedTlvClear();
 };
 
